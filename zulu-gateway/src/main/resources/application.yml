@@ -1,11 +1,24 @@
-# routing for account service
-zuul.routes.account-service.url=http://localhost:8081
+server:
+  port: 8083
 
-# routing for loan service
-zuul.routes.loan-service.url=http://localhost:8082
-
-# disable load balancing
-ribbon.eureka.enabled=false
-
-# port for zuul proxy
-server.port=8083
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: accountModule
+        uri: http://localhost:8081/
+        predicates:
+        - Path=/accounts/**
+      - id: loanModule
+        uri: http://localhost:8082/
+        predicates:
+        - Path=/loans/**
+      - id: empModule
+        uri: http://localhost:8084/
+        predicates:
+        - Path=/employees/**
+      - id: userModule
+        uri: http://localhost:8085/
+        predicates:
+        - Path=/users/**
+         
